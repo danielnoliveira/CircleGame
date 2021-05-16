@@ -18,4 +18,16 @@ func new_game():
 	spawn_circles($StartPosition.position)
 
 func spawn_circles(_position=null):
-	pass
+	var c = Circle.instance()
+	if !_position:
+		var x = rand_range(-150,150)
+		var y = rand_range(-500,-400)
+		_position = player.target.position + Vector2(x,y)
+	add_child(c)
+	c.init(_position)
+
+func _on_Jumper_captured(object):
+	$Camera2D.position = object.position
+	object.capture()
+	call_deferred("spawn_circles")
+	
